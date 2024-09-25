@@ -34,7 +34,7 @@ async function (event) {
       const result = await response.json();
       const data1=result.candidates[0].content.parts[0].text;
       document.querySelector(".data").textContent = data1;
-      input=""
+      document.querySelector(".inputdata").value=""
       console.log(data1);
     } catch (error) {
       console.error('Error:', error);
