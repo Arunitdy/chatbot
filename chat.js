@@ -30,7 +30,9 @@ async function fetchAI() {
       });
   
       const result = await response.json();
-      console.log(result.candidates[0].content.parts[0].text);
+      const data=result.candidates[0].content.parts[0].text;
+      document.querySelector(".data").textContent=data;
+      console.log(data);
     } catch (error) {
       console.error('Error:', error);
     } finally {
