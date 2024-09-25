@@ -2,8 +2,10 @@
 console.log("start");
 
 //Gemini aifetchAI();
-fetchAI();
-async function fetchAI() {
+document.querySelector(".submit").addEventListener("click",
+async function (event) {
+    event.preventDefault();
+    let input=document.querySelector(".inputdata").value;
     console.log("ai");
     const apiKey = 'AIzaSyCZ-dsLDmfV8N0qaVMhNkrJhAOmTcy-cvE';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
@@ -13,7 +15,7 @@ async function fetchAI() {
         {
           parts: [
             {
-              text: "Explain how spaceX works"
+              text: input
             }
           ]
         }
@@ -30,12 +32,13 @@ async function fetchAI() {
       });
   
       const result = await response.json();
-      const data=result.candidates[0].content.parts[0].text;
-      document.querySelector(".data").textContent=data;
-      console.log(data);
+      const data1=result.candidates[0].content.parts[0].text;
+      document.querySelector(".data").textContent = data1;
+      input=""
+      console.log(data1);
     } catch (error) {
       console.error('Error:', error);
     } finally {
       console.log("end");
     }
-  }
+  });
