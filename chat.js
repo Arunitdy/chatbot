@@ -1,10 +1,15 @@
 console.log("start");
 
+let conversationHistory = []; // Array to keep track of conversation history
+
 document.querySelector(".submit").addEventListener("click", async function (event) {
     event.preventDefault();
 
     let input = document.querySelector(".inputdata").value;
     if (!input) return; // Don't process if input is empty
+
+    // Append the user's message to conversation history
+    conversationHistory.push({ role: "user", text: input });
 
     // Display the user message
     const userMessage = document.createElement("div");
@@ -21,16 +26,11 @@ document.querySelector(".submit").addEventListener("click", async function (even
     const apiKey = 'AIzaSyCZ-dsLDmfV8N0qaVMhNkrJhAOmTcy-cvE';
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`;
 
+    // Format the conversation history for API request
     const data = {
-        contents: [
-            {
-                parts: [
-                    {
-                        text: input
-                    }
-                ]
-            }
-        ]
+        contents: conversationHistory.map(message => ({
+            parts: [{ text: message.text }]
+        }))
     };
 
     try {
@@ -44,6 +44,9 @@ document.querySelector(".submit").addEventListener("click", async function (even
 
         const result = await response.json();
         const botMessageText = result.candidates[0].content.parts[0].text;
+
+        // Append bot's message to conversation history
+        conversationHistory.push({ role: "bot", text: botMessageText });
 
         // Display the bot message
         const botMessage = document.createElement("div");
